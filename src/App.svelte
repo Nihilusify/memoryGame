@@ -1,57 +1,31 @@
 <script lang="ts">
   import MemCard from './MemCard.svelte';
-  let cards: MemoryCard[] = [
-    {
-      value: 1,
-      opened: false,
-      imgURL: 'https://picsum.photos/seed/1/150',
-    },
-    {
-      value: 1,
-      opened: false,
-      imgURL: 'https://picsum.photos/seed/1/150',
-    },
-    {
-      value: 2,
-      opened: false,
-    },
-    {
-      value: 2,
-      opened: false,
-    },
-    {
-      value: 3,
-      opened: false,
-    },
-    {
-      value: 3,
-      opened: false,
-    },
-    {
-      value: 4,
-      opened: false,
-    },
-    {
-      value: 4,
-      opened: false,
-    },
-    {
-      value: 5,
-      opened: false,
-    },
-    {
-      value: 5,
-      opened: false,
-    },
-    {
-      value: 6,
-      opened: false,
-    },
-    {
-      value: 6,
-      opened: false,
-    },
-  ];
+  let cards: MemoryCard[];
+
+  const newCards = (length: number, seed?: number): MemoryCard[] => {
+    let cards: MemoryCard[] = [];
+
+    // if no seed, use default of 1
+    if ('undefined' == typeof seed) {
+      seed = 1;
+    }
+
+    // We are going to add 2 duplicate cards on each iteration, so halve the length
+    length = length / 2;
+
+    for (let i = 0; i < length; i++) {
+      let card: MemoryCard = {
+        opened: false,
+        value: i,
+        imgURL: `https://picsum.photos/seed/${i + seed}/150`,
+      };
+
+      cards.push(card);
+      cards.push(card);
+    }
+
+    return cards;
+  };
 
   // https://bost.ocks.org/mike/shuffle/
   const shuffleCards = (cards: MemoryCard[]): MemoryCard[] => {
@@ -72,6 +46,8 @@
 
     return cards;
   };
+
+  cards = newCards(10);
 
   cards = shuffleCards(cards);
 </script>
