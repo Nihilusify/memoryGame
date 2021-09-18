@@ -18,13 +18,16 @@
 
     for (let i = 0; i < length; i++) {
       let card: MemoryCard = {
+        id: cards.length + 1,
         opened: false,
         value: i,
         imgURL: `https://picsum.photos/seed/${i + seed}/150`,
       };
 
       cards.push(card);
-      cards.push(card);
+
+      let card2 = { ...card, id: cards.length + 1 };
+      cards.push(card2);
     }
 
     return cards;
@@ -54,6 +57,15 @@
     cards = newCards(10);
     cards = shuffleCards(cards);
   };
+
+  const flipCard = (cardID: number): void => {
+    cards = cards.map((card) => {
+      if (cardID == card.id) {
+        card.opened = !card.opened;
+      }
+      return card;
+    });
+  };
 </script>
 
 <header>
@@ -71,8 +83,14 @@
 
   <div id="board" class="card">
     {#if 'undefined' != typeof cards}
-      {#each cards as card}
-        <MemCard memCard={card} {cardBackURL} />
+      {#each cards as card (card.id)}
+        <div
+          on:click={() => {
+            flipCard(card.id);
+          }}
+        >
+          <MemCard memCard={card} {cardBackURL} />
+        </div>
       {/each}
     {/if}
   </div>
