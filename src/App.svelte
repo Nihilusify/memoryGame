@@ -47,9 +47,10 @@
     return cards;
   };
 
-  cards = newCards(10);
-
-  cards = shuffleCards(cards);
+  const newGame = (): void => {
+    cards = newCards(10);
+    cards = shuffleCards(cards);
+  };
 </script>
 
 <header>
@@ -58,12 +59,19 @@
 </header>
 
 <div class="container">
-  <div id="score" class="card">Score</div>
+  <div id="score" class="card">
+    <div class="scores">score</div>
+    <div class="actions">
+      <button on:click={newGame}>New game</button>
+    </div>
+  </div>
 
   <div id="board" class="card">
-    {#each cards as card}
-      <MemCard memCard={card} />
-    {/each}
+    {#if 'undefined' != typeof cards}
+      {#each cards as card}
+        <MemCard memCard={card} />
+      {/each}
+    {/if}
   </div>
 </div>
 
@@ -85,6 +93,25 @@
     border: 1px solid hsl(0, 0%, 0%);
     box-shadow: 0 4px 8px 0 hsla(0, 0%, 0%, 0.2);
     margin: 15px auto;
+  }
+
+  #score {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+  }
+
+  .actions {
+    justify-self: end;
+  }
+
+  .actions button {
+    height: 40px;
+    font-size: 15px;
+    background: hsl(206, 26%, 27%);
+    color: hsl(10, 100%, 58%);
+    font-weight: bold;
+    border: 1px solid hsl(10, 100%, 58%);
+    border-radius: 5px;
   }
 
   #board {
