@@ -2,6 +2,9 @@
   import MemCard from './MemCard.svelte';
   let cards: MemoryCard[];
 
+
+  let cardBackURL = 'https://picsum.photos/seed/0/150?blur&grayscale';
+
   const newCards = (length: number, seed?: number): MemoryCard[] => {
     let cards: MemoryCard[] = [];
 
@@ -69,7 +72,7 @@
   <div id="board" class="card">
     {#if 'undefined' != typeof cards}
       {#each cards as card}
-        <MemCard memCard={card} />
+        <MemCard memCard={card} {cardBackURL} />
       {/each}
     {/if}
   </div>

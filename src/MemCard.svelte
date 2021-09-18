@@ -1,12 +1,17 @@
 <script lang="ts">
   export let memCard: MemoryCard;
+  export let cardBackURL: string;
 </script>
 
 <div class="card">
-  {#if memCard.imgURL}
-    <img src={memCard.imgURL} alt={memCard.value.toString()} />
+  {#if memCard.opened}
+    {#if memCard.imgURL}
+      <img src={memCard.imgURL} alt={memCard.value.toString()} />
+    {:else}
+      <h1>{memCard.value}</h1>
+    {/if}
   {:else}
-    <h1>{memCard.value}</h1>
+    <img src={cardBackURL} alt="Un-opened card" />
   {/if}
 </div>
 
