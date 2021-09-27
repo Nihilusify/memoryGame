@@ -69,6 +69,9 @@
    * Creates a new game
    */
   const newGame = (): void => {
+    score = 0;
+    moves = 0;
+
     cards = newCards(10);
     cards = shuffleCards(cards);
   };
