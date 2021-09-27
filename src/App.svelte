@@ -24,6 +24,7 @@
       let card: MemoryCard = {
         id: cards.length + 1,
         opened: false,
+        matched: false,
         value: i,
         imgURL: `https://picsum.photos/seed/${i + seed}/150`,
       };
@@ -69,13 +70,50 @@
     cards = shuffleCards(cards);
   };
 
+  let chosenCards: MemoryCard[] = [];
+
   const flipCard = (cardID: number): void => {
+    console.log('flipping card', cardID);
+
     cards = cards.map((card) => {
       if (cardID == card.id) {
+        if (card.matched) {
+          // Card already matched.  Don't flip.
+          return card;
+        }
+        if (chosenCards.includes(card)) {
+          // Card already chosen.  Don't flip.  Player should flip another card.
+          return card;
+        }
+        if (!card.opened) {
+          chosenCards.push(card);
+        }
         card.opened = !card.opened;
       }
       return card;
     });
+
+    if (2 === chosenCards.length) {
+      // Check chosen cards
+      checkChosenCards();
+    }
+  };
+
+  const checkChosenCards = () => {
+    console.log('check', chosenCards);
+    if (chosenCards[0].value === chosenCards[1].value) {
+      // Match found
+      chosenCards[0].matched = true;
+      chosenCards[1].matched = true;
+      chosenCards = [];
+    } else {
+      let chosenIDs = [chosenCards[0].id, chosenCards[1].id];
+      chosenCards = [];
+      setTimeout(() => {
+        flipCard(chosenIDs[1]);
+        flipCard(chosenIDs[0]);
+      }, 1000);
+    }
   };
 </script>
 

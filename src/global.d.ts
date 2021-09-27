@@ -5,4 +5,5 @@ interface MemoryCard {
     value: string | number;
     imgURL?: string;
     opened: boolean;
+    matched: boolean;
 }
