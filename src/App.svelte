@@ -2,9 +2,13 @@
   import MemCard from './MemCard.svelte';
   let cards: MemoryCard[];
 
-
   let cardBackURL = 'https://picsum.photos/seed/0/150?blur&grayscale';
 
+  /**
+   * Empties the current card deckand replace with new cards
+   * @param length How many cards to add
+   * @param seed Seed to use for images.  Default is '1'
+   */
   const newCards = (length: number, seed?: number): MemoryCard[] => {
     let cards: MemoryCard[] = [];
 
@@ -33,7 +37,11 @@
     return cards;
   };
 
-  // https://bost.ocks.org/mike/shuffle/
+  /**
+   * Shuffle the card deck
+   * Using Fisher-Yates shuffle: // https://bost.ocks.org/mike/shuffle/
+   * @param cards Array of MemoryCards
+   */
   const shuffleCards = (cards: MemoryCard[]): MemoryCard[] => {
     let remainLength = cards.length;
     let randElement: number;
@@ -53,6 +61,9 @@
     return cards;
   };
 
+  /**
+   * Creates a new game
+   */
   const newGame = (): void => {
     cards = newCards(10);
     cards = shuffleCards(cards);
