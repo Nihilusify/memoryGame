@@ -72,9 +72,12 @@
 
   let chosenCards: MemoryCard[] = [];
 
+  /**
+   * Flip a card
+   * If a card is already matched or opened, card won't be flipped.
+   * @param cardID ID of card to flip
+   */
   const flipCard = (cardID: number): void => {
-    console.log('flipping card', cardID);
-
     cards = cards.map((card) => {
       if (cardID == card.id) {
         if (card.matched) {
@@ -99,6 +102,9 @@
     }
   };
 
+  /**
+   * Check the chosen cards to determine if a match was found.
+   */
   const checkChosenCards = () => {
     console.log('check', chosenCards);
     if (chosenCards[0].value === chosenCards[1].value) {
