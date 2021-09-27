@@ -4,6 +4,9 @@
 
   let cardBackURL = 'https://picsum.photos/seed/0/150?blur&grayscale';
 
+  let score = 0;
+  let moves = 0;
+
   /**
    * Empties the current card deckand replace with new cards
    * @param length How many cards to add
@@ -106,12 +109,13 @@
    * Check the chosen cards to determine if a match was found.
    */
   const checkChosenCards = () => {
-    console.log('check', chosenCards);
     if (chosenCards[0].value === chosenCards[1].value) {
       // Match found
       chosenCards[0].matched = true;
       chosenCards[1].matched = true;
       chosenCards = [];
+
+      score += 1000;
     } else {
       let chosenIDs = [chosenCards[0].id, chosenCards[1].id];
       chosenCards = [];
@@ -119,7 +123,11 @@
         flipCard(chosenIDs[1]);
         flipCard(chosenIDs[0]);
       }, 1000);
+
+      score -= 200;
     }
+
+    moves += 1;
   };
 </script>
 
@@ -130,7 +138,10 @@
 
 <div class="container">
   <div id="score" class="card">
-    <div class="scores">score</div>
+    <div class="scores">
+      <div>Score: {score}</div>
+      <div>Moves: {moves}</div>
+    </div>
     <div class="actions">
       <button on:click={newGame}>New game</button>
     </div>
@@ -174,6 +185,12 @@
   #score {
     display: grid;
     grid-template-columns: 4fr 1fr;
+    font-size: 30px;
+  }
+
+  .scores {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
   }
 
   .actions {
