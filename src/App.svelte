@@ -150,6 +150,10 @@
   };
 </script>
 
+<a class="github-ribbon" href="https://github.com/Nihilusify/memoryGame"
+  >Fork me on Github</a
+>
+
 <header>
   <h1>Memory Game</h1>
   <p>Created by Terence</p>
@@ -232,5 +236,23 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 1rem;
+  }
+
+  .github-ribbon {
+    width: 600px;
+    position: fixed;
+    top: 25px;
+    right: -275px;
+    transform: rotate(45deg) translateY(100%);
+    background-color: #aa0000;
+    box-shadow: 0 3px 6px rgb(0 0 0 / 16%), 0 3px 6px rgb(0 0 0 / 23%);
+    padding: 10px;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    border: 2px dashed #fff;
+    box-shadow: 0 0 0 4px #aa0000, 2px 1px 6px 4px rgb(10 10 0 / 50%);
   }
 </style>
