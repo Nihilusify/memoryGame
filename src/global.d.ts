@@ -7,3 +7,9 @@ interface MemoryCard {
     opened: boolean;
     matched: boolean;
 }
+
+interface GameConfig {
+    cardsNum: number;
+    seed?: number;
+    username?: string;
+}

@@ -1,27 +1,29 @@
 <script lang="ts">
   import MemCard from './MemCard.svelte';
+  import NewGameForm from './NewGameForm.svelte';
+
   let cards: MemoryCard[];
 
-  let cardBackURL = 'https://picsum.photos/seed/0/150?blur&grayscale';
+  let cardBackURL: string;
 
   let score = 0;
   let moves = 0;
 
+  let gameConfig: GameConfig;
+
   /**
    * Empties the current card deckand replace with new cards
-   * @param length How many cards to add
-   * @param seed Seed to use for images.  Default is '1'
    */
-  const newCards = (length: number, seed?: number): MemoryCard[] => {
+  const newCards = (): MemoryCard[] => {
     let cards: MemoryCard[] = [];
 
     // if no seed, use default of 1
-    if ('undefined' == typeof seed) {
-      seed = 1;
+    if ('undefined' == typeof gameConfig.seed) {
+      gameConfig.seed = 1;
     }
 
     // We are going to add 2 duplicate cards on each iteration, so halve the length
-    length = length / 2;
+    length = gameConfig.cardsNum / 2;
 
     for (let i = 0; i < length; i++) {
       let card: MemoryCard = {
@@ -29,7 +31,7 @@
         opened: false,
         matched: false,
         value: i,
-        imgURL: `https://picsum.photos/seed/${i + seed}/150`,
+        imgURL: `https://picsum.photos/seed/${i + gameConfig.seed}/150`,
       };
 
       cards.push(card);
@@ -66,14 +68,10 @@
   };
 
   /**
-   * Creates a new game
+   * Resets the board
    */
   const newGame = (): void => {
-    score = 0;
-    moves = 0;
-
-    cards = newCards(10);
-    cards = shuffleCards(cards);
+    cards = undefined;
   };
 
   let chosenCards: MemoryCard[] = [];
@@ -132,6 +130,24 @@
 
     moves += 1;
   };
+
+  /**
+   * Start game after config is entered
+   * @param e Event passed through from NewGameForm Component.  e.detail is a GameConfig object.
+   */
+  const startGame = (e: { detail: GameConfig }) => {
+    gameConfig = e.detail;
+
+    score = 0;
+    moves = 0;
+
+    cards = newCards();
+    cards = shuffleCards(cards);
+
+    cardBackURL = `https://picsum.photos/seed/${
+      gameConfig.seed - 1
+    }/150?blur&grayscale`;
+  };
 </script>
 
 <header>
@@ -161,6 +177,8 @@
           <MemCard memCard={card} {cardBackURL} />
         </div>
       {/each}
+    {:else}
+      <NewGameForm on:startGame={startGame} />
     {/if}
   </div>
 </div>
