@@ -1,6 +1,7 @@
 <script lang="ts">
   import MemCard from './MemCard.svelte';
   import NewGameForm from './NewGameForm.svelte';
+  import GameComplete from './GameComplete.svelte';
 
   let cards: MemoryCard[];
 
@@ -10,6 +11,8 @@
   let moves = 0;
 
   let gameConfig: GameConfig;
+
+  let gameComplete = false;
 
   /**
    * Empties the current card deckand replace with new cards
@@ -72,6 +75,7 @@
    */
   const newGame = (): void => {
     cards = undefined;
+    gameComplete = false;
   };
 
   let chosenCards: MemoryCard[] = [];
@@ -129,6 +133,22 @@
     }
 
     moves += 1;
+
+    gameComplete = checkGameComplete();
+  };
+
+  /**
+   * Check if game is complete (won)
+   * @returns {bool} True if game is complete, else false
+   */
+  const checkGameComplete = () => {
+    for (let i = 0; i < cards.length; i++) {
+      if (!cards[i].matched) {
+        return false;
+      }
+    }
+
+    return true;
   };
 
   /**
@@ -185,6 +205,10 @@
       <NewGameForm on:startGame={startGame} />
     {/if}
   </div>
+
+  {#if gameComplete}
+    <GameComplete {score} {moves} on:newGame={newGame} />
+  {/if}
 </div>
 
 <style>
