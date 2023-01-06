@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
+  import { Confetti } from 'svelte-confetti';
 
   export let score: number;
   export let moves: number;
@@ -12,6 +13,17 @@
 </script>
 
 <div class="background" />
+<div class="confetti">
+  <Confetti
+    x={[-5, 5]}
+    y={[0, 0.1]}
+    delay={[500, 2000]}
+    infinite
+    duration="5000"
+    amount="1000"
+    fallDistance="100vh"
+  />
+</div>
 <div class="card centered width-70">
   <h1>You won!!!</h1>
   <div id="score" class="card">
@@ -30,10 +42,23 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     background-color: #ccc;
     opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .confetti {
+    position: fixed;
+    top: -50px;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
   }
 
   .card {
